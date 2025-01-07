@@ -11,6 +11,7 @@ class SmoothCounterRow extends StatefulWidget {
     this.textStyle,
     required this.duration,
     required this.curve,
+    required this.formatter,
     required this.animateOnInit,
     required this.controller,
   });
@@ -24,6 +25,7 @@ class SmoothCounterRow extends StatefulWidget {
 
   /// The duration of the wheel animation.
   final Duration duration;
+  final Formatter formatter;
 
   /// The curve of the wheel animation.
   final Curve curve;
@@ -39,7 +41,7 @@ class SmoothCounterRow extends StatefulWidget {
 }
 
 class _SmoothCounterRowState extends State<SmoothCounterRow> {
-  final formatter = Formatter();
+  late final formatter = widget.formatter;
 
   void listen() => setState(() {});
 
@@ -68,15 +70,14 @@ class _SmoothCounterRowState extends State<SmoothCounterRow> {
         for (var index = 0; index < number.length; index++)
           if (int.tryParse(number[index]) != null)
             Expanded(
-              key: ValueKey(number.length - index),
+              key: ValueKey('$index.${int.parse(number[index])}'),
               child: CounterWheel(
                 textStyle: widget.textStyle,
                 digits: number.length - index,
                 duration: widget.duration,
                 curve: widget.curve,
                 animateOnInit: widget.animateOnInit,
-                itemIndex:
-                    formatter.parse(number.substring(0, index + 1)).toInt(),
+                itemIndex: int.parse(number[index]),
               ),
             )
           else

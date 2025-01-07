@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:smooth_counter/smooth_counter.dart';
 
 void main() {
@@ -32,11 +33,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  double _counter = 0;
 
   void _incrementCounter() {
     setState(() {
-      _counter += 100;
+      _counter += 5.0;
     });
   }
 
@@ -56,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SmoothCounter(
               count: _counter,
+              customFormat: NumberFormat('#####.#'),
               textStyle: Theme.of(context).textTheme.headlineMedium,
             ),
           ],

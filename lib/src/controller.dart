@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 /// A controller for a [SmoothCounter].
-class SmoothCounterController extends ValueNotifier<int> {
+class SmoothCounterController extends ValueNotifier<double> {
   SmoothCounterController({
     this.initialCount = 0,
     this.duration = const Duration(milliseconds: 500),
@@ -10,7 +10,7 @@ class SmoothCounterController extends ValueNotifier<int> {
 
   /// The initial count of the counter.
   /// default: 0
-  final int initialCount;
+  final double initialCount;
 
   /// The duration of the animation.
   /// default: 500ms
@@ -22,16 +22,9 @@ class SmoothCounterController extends ValueNotifier<int> {
 
   /// The current count of the counter.
   /// Same as [value].
-  int get count => value;
+  double get count => value;
 
   /// Sets the current count of the counter.
   /// Same as [value].
-  set count(int newValue) => value = newValue;
-
-  @protected
-  @override
-  int get value => super.value;
-  @protected
-  @override
-  set value(int newValue) => super.value = newValue;
+  set count(double newValue) => value = newValue;
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:smooth_counter/src/controller.dart';
 import 'package:smooth_counter/src/formatter.dart';
 import 'package:smooth_counter/src/smooth_counter_row.dart';
@@ -11,6 +12,7 @@ class SmoothCounter extends StatefulWidget {
     this.hasSeparator = true,
     this.animateOnInit = true,
     this.textStyle,
+    this.customFormat,
     this.duration,
     this.sizeDuration = const Duration(milliseconds: 100),
     this.curve,
@@ -30,7 +32,7 @@ class SmoothCounter extends StatefulWidget {
   /// If null, the count of the controller will be used.
   /// If both count and controller are null, assert will be thrown.
   /// If both count and controller are non-null also it.
-  final int? count;
+  final double? count;
 
   /// Whether the counter has a separator.
   /// default: true
@@ -43,6 +45,8 @@ class SmoothCounter extends StatefulWidget {
   /// The text style of the counter.
   /// If null, the default text style will be used.
   final TextStyle? textStyle;
+
+  final NumberFormat? customFormat;
 
   /// The duration of the wheel animation.
   /// If null, the duration of the controller will be used.
@@ -77,7 +81,9 @@ class _SmoothCounterState extends State<SmoothCounter> {
   SmoothCounterController? _controller;
   SmoothCounterController get controller =>
       widget.controller ?? (_controller ??= SmoothCounterController());
-  final formatter = Formatter();
+  late final formatter = Formatter(
+      customFormat: widget.customFormat ??
+          (NumberFormat.decimalPatternDigits(decimalDigits: 0)));
   late String numberString = formatter.format(
     controller.count,
     isSeparated: widget.hasSeparator,
@@ -139,6 +145,7 @@ class _SmoothCounterState extends State<SmoothCounter> {
             child: SizedBox.fromSize(
               size: painter.size,
               child: SmoothCounterRow(
+                formatter: formatter,
                 hasSeparator: widget.hasSeparator,
                 animateOnInit: widget.animateOnInit,
                 textStyle: style,
