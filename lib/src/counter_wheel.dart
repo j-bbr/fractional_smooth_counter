@@ -1,3 +1,4 @@
+import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/widgets.dart';
 
 /// A wheel of digits.
@@ -8,9 +9,12 @@ class CounterWheel extends StatefulWidget {
     required this.digits,
     required this.duration,
     required this.curve,
+    this.fadeEdges = true,
     required this.itemIndex,
     required this.animateOnInit,
   });
+
+  final bool fadeEdges;
 
   /// The text style of the counter.
   /// If null, the default text style will be used.
@@ -64,7 +68,7 @@ class _CounterWheelState extends State<CounterWheel> {
 
     return LayoutBuilder(
       builder: (_, constraints) {
-        return ListWheelScrollView.useDelegate(
+        final scrollWheel = ListWheelScrollView.useDelegate(
           itemExtent: constraints.maxHeight,
           controller: controller,
           physics: const FixedExtentScrollPhysics(),
@@ -77,6 +81,13 @@ class _CounterWheelState extends State<CounterWheel> {
             ),
           ),
         );
+        if (!widget.fadeEdges) {
+          return scrollWheel;
+        }
+        return FadingEdgeScrollView.fromListWheelScrollView(
+            gradientFractionOnStart: 0.3,
+            gradientFractionOnEnd: 0.3,
+            child: scrollWheel);
       },
     );
   }
