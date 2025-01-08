@@ -70,7 +70,9 @@ class _SmoothCounterRowState extends State<SmoothCounterRow> {
         for (var index = 0; index < number.length; index++)
           if (int.tryParse(number[index]) != null)
             Expanded(
-              key: ValueKey('$index.${int.parse(number[index])}'),
+              // key: ValueKey(
+              //   '${number.length}.$index.${int.parse(number[index])}',
+              // ),
               child: CounterWheel(
                 textStyle: widget.textStyle,
                 digits: number.length - index,
